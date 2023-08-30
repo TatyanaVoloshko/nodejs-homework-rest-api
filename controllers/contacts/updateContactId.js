@@ -2,27 +2,47 @@ const contactsChanging = require("../../models/contacts");
 const { contactSchema } = require("../../schemas/contacts");
 
 const updateContactId = async (req, res, next) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).json({
+      message: "missing fields",
+    });
+    return;
+  }
+
+ const { error } = contactSchema.validate(req.body);
   try {
-    const { error } = contactSchema.validate(req.body);
-    if (error) {
+      if (error) {
+        if (error.details[0].type === "string.base") {
+      const errorName = error.details[0].message;
       res.status(400).json({
-        message: "missing fields",
+        message: `${errorName}`,
       });
       return;
+        } else {
+          console.log(error);
+          const errorName = error.details[0].path;
+          res.status(400).json({
+            message: ` missing required ${errorName} field`,
+          });
+          return;
     }
+       
+     }
+    
     const { contactId } = req.params;
     const updatedContact = await contactsChanging.updateContact(
       contactId,
       req.body
     );
+
     if (!updatedContact) {
       res.status(404).json({
         message: "Not found",
       });
       return;
     }
-    res.json(
-    updatedContact);
+    res.json(updatedContact);
+    
   } catch (error) {
     next(error);
   }
