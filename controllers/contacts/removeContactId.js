@@ -10,7 +10,12 @@ const removeContactId = async (req, res, next) => {
       });
       return;
     }
-    res.json({
+
+    if (removedContact.owner !== req.user.id) {
+       return res.status(401).json({ message: "Not authorized" });
+    }
+
+    return res.json({
       message: "contact deleted",
     });
   } catch (error) {
