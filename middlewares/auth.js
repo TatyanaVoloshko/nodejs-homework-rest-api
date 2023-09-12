@@ -33,6 +33,10 @@ function auth(req, res, next) {
                 return res.status(401).json({ message: "Not authorized" });
             }
 
+            if (user.verify !== true) {
+              return res.status(401).json({ message: "Not authorized" });
+            }
+
             req.user = {
               id: user.id,
               email: user.email,
