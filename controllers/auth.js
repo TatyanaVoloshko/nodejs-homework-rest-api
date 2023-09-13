@@ -126,9 +126,7 @@ async function verify(req, res, next) {
 
     if (user === null) {
       return res.status(404).json({
-        ResponseBody: {
-          message: "User not found",
-        },
+        message: "User not found",
       });
     }
 
@@ -138,10 +136,8 @@ async function verify(req, res, next) {
     });
 
     res.json({
-      ResponseBody: {
-        message: "Verification successful",
-      },
-    });
+      message: "Verification successful",
+     });
   } catch (error) {
     next(error);
   }

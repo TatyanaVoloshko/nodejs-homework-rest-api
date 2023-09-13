@@ -38,9 +38,8 @@ async function uploadAvatar(req, res, next) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({
-      ResponseBody: { avatarURL },
-    });
+    res.json({ avatarURL },
+    );
   } catch (error) {
     next(error);
   }
