@@ -5,9 +5,14 @@ const authSchema = Joi.object({
   password: Joi.string().required(),
   });
 
-
+const emailSchema = Joi.object({
+  email: Joi.string()
+    .required()
+    .messages({ "any.required": "missing required email field" }),
+});
 
 module.exports = {
   authSchema,
+  emailSchema,
   
 };
